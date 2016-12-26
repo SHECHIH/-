@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<style>
+#animate { width: 30px; height: 30px; position: absolute; background: red;z-index: 2;}
+#go {width: 60px;height: 30px;position:absolute;left:780px;top:50px;}
+#eating {width: 30px; height: 30px; position: absolute; background: lightgreen;z-index: 1;}
+#point {width: 60px;height: 30px;position:absolute;left:780px;top:80px;}
+.snakebody {width: 30px; height: 30px; position: absolute; background: #FF44AA;z-index: 2;}
+
+table { border-collapse: collapse;}
+table, th { border: 1px solid black;}
+th {width: 26px; height: 26px;}
+
+</style>
+<body onkeydown="eval(event)">
+<div id="animate"></div>
+<div id="eating"></div>
+<script>
+var m = 4;
+var lastm = 4;
+var flag = 0;
+var eatx = 0;
+var eaty = 0;
+var point = 0;
+var snake = [];
+var i = 0;
+var moveflag = 0;
+function eval(event) {
+var key = event.which || event.keyCode;
+switch(key){
+case 38:
+if(lastm==2)
+{break;}
+m = 1;
+break;
+case 40:
+if(lastm==1)
+{break;}
+m = 2;
+break;
+case 37:
+if(lastm==4)
+{break;}
+m = 3;
+break;
+case 39:
+if(lastm==3)
+{break;}
+m = 4;
+break;
+}
+}
+function appeareating( )
+{
+   var elemeat = document.getElementById("eating");
+   elemeat.style.top = (Math.floor((Math.random() * 24) + 1) * 29) + 8 + 'px';
+   elemeat.style.left = (Math.floor((Math.random() * 24) + 1) * 29) + 8 + 'px';
+   eatx = elemeat.offsetLeft || 0;
+   eaty = elemeat.offsetTop || 0;
+}
+function move( )
+{  
+   var elem = document.getElementById("animate");
+   var x = elem.offsetLeft || 0;
+   var y = elem.offsetTop || 0;
+   switch(m){
+   case 1:
+   elem.style.top = (y-29) + 'px';
+   break;
+   case 2:
+   elem.style.top = (y+29) + 'px';
+   break;
+   case 3:
+   elem.style.left = (x-29) + 'px';
+   break;
+   case 4:
+   elem.style.left = (x+29) + 'px';
+   break;
+   }
+   lastm = m;
+   if(elem.offsetLeft<8 || elem.offsetLeft>704 || elem.offsetTop<8 || elem.offsetTop>704)
+   {
+      alert("你輸了!");
+      clearTimeout(rate)
+      return;
+   }
+   for(var j=0; j < snake.length; j++)
+   {
+      if(elem.style.left==snake[j].style.left && elem.style.top==snake[j].style.top)
+      {
+         alert("你輸了!");
+         clearTimeout(rate)
+         return;
+      }
+   }
+   if(elem.offsetLeft==eatx && elem.offsetTop==eaty)
+   {
+      appeareating( )
+      point = point + 1;
+      document.pointform.pointbox.value = point
+      snake[i] = document.createElement("div");
+      snake[i].setAttribute("class", "snakebody");
+      snake[i].style.left = x + "px";
+      snake[i].style.top = y + "px";
+      document.body.appendChild(snake[i]);
+      i = i + 1;
+      moveflag = 1;
+   }
+   if(moveflag == 0)
+   {
+      for(var j=0; j < snake.length; j++)
+      {
+         if((j+1)==snake.length)
+         {
+         snake[j].style.left = x + "px";
+         snake[j].style.top = y + "px";
+         }
+         else
+         {
+         snake[j].style.left = snake[j+1].style.left;
+         snake[j].style.top = snake[j+1].style.top;
+         }
+      }
+   }
+   else
+   {moveflag = 0;}
+   rate=setTimeout("move( )", 1000)
+}
+function tomove( )
+{
+   if(flag==0)
+   {
+      appeareating( )
+      setTimeout("move( )", 1000)
+      flag = 1;
+   }
+}
+</script>
+<div id="go">
+<input type=button value="開始!!" onClick="tomove( ),appeareating( )">
+</div>
+<div id="point">
+<form name=pointform>
+<input type="text" name="pointbox" value=0 size=4 >
+</form>
+</div>
+<table>
+<tr>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+</tr>
+<tr>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+</tr>
+<tr>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+</tr>
+<tr>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+</tr>
+<tr>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+</tr>
+<tr>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+</tr>
+<tr>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+</tr>
+<tr>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+</tr>
+<tr>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+</tr>
+<tr>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+</tr>
+<tr>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+</tr>
+<tr>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+</tr>
+<tr>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+</tr>
+<tr>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+</tr>
+<tr>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+</tr>
+<tr>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+</tr>
+<tr>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+</tr>
+<tr>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+</tr>
+<tr>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+</tr>
+<tr>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+</tr>
+<tr>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+</tr>
+<tr>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+</tr>
+<tr>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+</tr>
+<tr>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+</tr>
+<tr>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+<th></th><th></th><th></th><th></th><th></th>
+</tr>
+</table>
+</body></html>
